@@ -1,7 +1,9 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function AuthErrorPage() {
+// Wrap the component in Suspense
+function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
 
@@ -24,3 +26,14 @@ export default function AuthErrorPage() {
     </div>
   );
 }
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
+  );
+}
+
+// Add this to prevent static generation
+export const dynamic = 'force-dynamic';
