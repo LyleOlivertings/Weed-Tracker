@@ -9,10 +9,15 @@ export default function AddStrainButton({ onAddStrain }) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-600 transition-all flex items-center gap-2"
+        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-green-500 text-white p-4 md:px-6 md:py-3 rounded-full shadow-xl hover:bg-green-600 transition-all flex items-center gap-2 z-50"
+        style={{
+          // Add iOS touch-friendly sizing
+          minWidth: '56px',
+          minHeight: '56px'
+        }}
       >
-        <span className="text-2xl">+</span>
-        Add Strain
+        <span className="text-2xl md:text-xl">+</span>
+        <span className="hidden md:inline">Add Strain</span>
       </button>
 
       {isOpen && (
