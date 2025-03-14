@@ -1,9 +1,20 @@
 import { useState } from 'react';
+import { StarRating } from './StarRating';
 
 export default function StrainForm({ onAddStrain }) {
+    const [ratings, setRatings] = useState({
+        taste: 3,
+        potency: 3,
+        duration: 3,
+        overall: 3
+      });
   const [name, setName] = useState('');
   const [effects, setEffects] = useState(50);
   const [comments, setComments] = useState('');
+
+  const handleRatingChange = (name, value) => {
+    setRatings(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +34,7 @@ export default function StrainForm({ onAddStrain }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="form-group">
         <label>Strain Name</label>
         <input
@@ -59,6 +70,40 @@ export default function StrainForm({ onAddStrain }) {
           className="form-textarea"
           rows="3"
         />
+      </div>
+
+      <div className="space-y-4 mt-6">
+        <div className="rating-item">
+          <label>Taste Rating</label>
+          <StarRating
+            value={ratings.taste}
+            onChange={(value) => handleRatingChange('taste', value)}
+          />
+        </div>
+        
+        <div className="rating-item">
+          <label>Potency Rating</label>
+          <StarRating
+            value={ratings.potency}
+            onChange={(value) => handleRatingChange('potency', value)}
+          />
+        </div>
+
+        <div className="rating-item">
+          <label>Duration Rating</label>
+          <StarRating
+            value={ratings.duration}
+            onChange={(value) => handleRatingChange('duration', value)}
+          />
+        </div>
+
+        <div className="rating-item">
+          <label>Overall Experience</label>
+          <StarRating
+            value={ratings.overall}
+            onChange={(value) => handleRatingChange('overall', value)}
+          />
+        </div>
       </div>
 
       <button

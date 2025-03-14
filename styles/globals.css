@@ -110,4 +110,30 @@
   .cards-grid {
     @apply grid gap-5;
   }
+
+  .recharts-tooltip {
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem !important;
+  }
+  
+  .recharts-tooltip-item {
+    color: #2D3748 !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .recharts-cartesian-axis-tick {
+    font-size: 0.875rem;
+    color: #718096;
+  }
+
+  .rating-item {
+    @apply p-3 bg-gray-50 rounded-lg;
+  }
+  
+  .rating-item label {
+    @apply block text-sm font-medium mb-2 text-gray-700;
+  }
 }
