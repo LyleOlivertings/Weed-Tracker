@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4CAF50;
+  --secondary: #8BC34A;
+  --accent: #FFC107;
+  --text: #2D3748;
+  --background: #f0f4f8;
+}
+
+/* Custom styles */
+@layer components {
+  .form-container {
+    @apply mb-8 p-6 rounded-xl bg-white shadow-lg;
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e2e8f0;
+  }
+
+  .form-group {
+    @apply mb-5;
+  }
+
+  .form-input, .form-textarea {
+    @apply w-full p-3 rounded-lg border-2 border-gray-200 focus:border-green-300 focus:ring-2 focus:ring-green-100 transition-all;
+  }
+
+  .styled-slider {
+    @apply w-full h-3 rounded-lg appearance-none;
+    background: #e2e8f0;
+    &::-webkit-slider-thumb {
+      @apply w-6 h-6 rounded-full appearance-none;
+      background: var(--primary);
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  }
+
+  .submit-button {
+    @apply w-full py-3 px-6 rounded-lg font-bold text-white transition-all;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+  }
+
+  .strain-card {
+    @apply p-6 rounded-xl bg-white mb-4 relative overflow-hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+    &::before {
+      content: '';
+      @apply absolute top-0 left-0 w-full h-1;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+  }
+
+  .card-header {
+    @apply flex justify-between items-center mb-4;
+    h3 {
+      @apply text-xl font-bold text-gray-800;
+    }
+  }
+
+  .effect-pill {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--primary);
+  }
+
+  .effect-meter {
+    @apply w-full bg-gray-100 rounded-full h-2 mb-4;
+    .meter-fill {
+      @apply h-2 rounded-full;
+      background: linear-gradient(90deg, #8BC34A, #4CAF50);
+    }
+  }
+
+  .card-comments {
+    @apply text-gray-600 mb-4 italic;
+    &::before {
+      content: '“';
+      @apply text-2xl mr-1 text-green-500;
+    }
+  }
+
+  .date-badge {
+    @apply text-sm text-gray-500 flex items-center;
+  }
+
+
+  .app-container {
+    @apply min-h-screen py-8 px-4;
+    background: var(--background);
+  }
+  
+  .main-content {
+    @apply max-w-3xl mx-auto;
+  }
+  
+  .app-title {
+    @apply text-4xl font-bold mb-8 text-center;
+    color: var(--text);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+  
+  .cards-grid {
+    @apply grid gap-5;
+  }
+}
