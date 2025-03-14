@@ -1,12 +1,12 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '@/models/User';
-import dbConnect from '@/lib/dbConnect';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import User from "@/models/User";
+import dbConnect from "@/lib/dbConnect";
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
@@ -15,12 +15,13 @@ export const authOptions = {
         await dbConnect();
         
         try {
-          const user = await User.findOne({ email: credentials.email }).select('+password');
-          if (!user) throw new Error('Invalid credentials');
-      
-          const isMatch = await user.comparePassword(credentials.password);
-          if (!isMatch) throw new Error('Invalid credentials');
-      
+          const user = await User.findOne({ email: credentials.email })
+                                 .select('+password');
+          if (!user) return null;
+
+          const isValid = await user.comparePassword(credentials.password);
+          if (!isValid) return null;
+
           return {
             id: user._id.toString(),
             name: user.name,
@@ -36,10 +37,21 @@ export const authOptions = {
     async session({ session, token }) {
       session.user.id = token.sub;
       return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
     }
   },
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60 // 30 days
+  },
+  pages: {
+    signIn: '/login',
+    error: '/auth/error'
   },
   secret: process.env.NEXTAUTH_SECRET
 };
