@@ -1,30 +1,40 @@
 'use client';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import StrainForm from '@/components/StrainForm';
 import StrainCard from '@/components/StrainCard';
 import Header from '@/components/Header';
 import AuthLayout from '@/components/AuthLayout';
 import EffectsChart from '@/components/EffectsChart';
 import AddStrainButton from '@/components/AddStrainButton';
+import SortDropdown from '@/components/SortDropdown';
+import SearchFilters from '@/components/SearchFilters';
 
 export default function Home() {
-  const { data: session } = useSession();
   const [strains, setStrains] = useState([]);
-
-  useEffect(() => {
-    fetchStrains();
-  }, []);
+  const [filters, setFilters] = useState({
+    search: '',
+    minEffect: 0,
+    maxEffect: 100,
+    minRating: 0
+  });
 
   const fetchStrains = async () => {
     try {
-      const response = await fetch('/api/strains');
+      const params = new URLSearchParams(filters);
+      const response = await fetch(`/api/strains?${params}`);
       const data = await response.json();
       setStrains(data);
     } catch (error) {
       console.error('Error fetching strains:', error);
     }
   };
+
+  useEffect(() => {
+    fetchStrains();
+  }, [filters]);
+
+
+  
 
   const handleAddStrain = async (newStrain) => {
     try {
@@ -52,12 +62,21 @@ export default function Home() {
         <div className="app-container">
           <div className="main-content">
             <h1 className="app-title">🌱 Weed Strain Tracker</h1>
-            <AddStrainButton onAddStrain={handleAddStrain} />
+            <SearchFilters onFilterChange={setFilters} />
+            <AddStrainButton onAddStrain={fetchStrains} />
+            
             <div className="cards-grid">
               {strains.map((strain) => (
                 <StrainCard key={strain._id} strain={strain} />
               ))}
             </div>
+
+            {strains.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                No strains found matching your filters
+              </div>
+            )}
+
             <EffectsChart />
           </div>
         </div>
